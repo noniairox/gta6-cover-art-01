@@ -3,104 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Cover Studio — GTA-style cover art maker</title>
+<title>Vice Cover Studio — GTA 6-style cover art maker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="topbar">
+<header>
   <h1>Vice Cover Studio</h1>
-  <p class="tagline">Turn any photo into GTA-style cover art. Offline, in your browser — your photos never leave your machine.</p>
+  <p>Turn any photo into GTA 6-style cover art. Everything runs offline — your photos never leave this machine.</p>
 </header>
-
-<main class="editor">
-  <section class="controls" aria-label="Cover controls">
-    <div class="group">
-      <h2>1 · Layout</h2>
-      <div class="chips" role="group" aria-label="Layout">
-        <button type="button" data-layout="hero" class="active">Hero</button>
-        <button type="button" data-layout="grid">Grid 2×2</button>
-        <button type="button" data-layout="strip">Strip</button>
-        <button type="button" data-layout="full">Full-bleed</button>
-      </div>
-    </div>
-
-    <div class="group">
-      <h2>2 · Grade</h2>
-      <div class="chips" role="group" aria-label="Colour grade">
-        <button type="button" data-grade="sunset" class="active">Sunset</button>
-        <button type="button" data-grade="neon">Neon</button>
-        <button type="button" data-grade="vice">Vice</button>
-        <button type="button" data-grade="noir">Noir</button>
-        <button type="button" data-grade="golden">Golden Hour</button>
-      </div>
-    </div>
-
-    <div class="group">
-      <h2>3 · Caption</h2>
-      <label class="field">Title
-        <input id="titleInput" type="text" value="VICE CITY" maxlength="40" autocomplete="off">
-      </label>
-      <label class="field">Subtitle
-        <input id="subtitleInput" type="text" value="Neon nights · Ocean Drive" maxlength="60" autocomplete="off">
-      </label>
-      <div class="chips" role="group" aria-label="Caption font">
-        <button type="button" data-font="Anton" class="active">Anton</button>
-        <button type="button" data-font="Bebas Neue">Bebas Neue</button>
-        <button type="button" data-font="Pacifico">Pacifico</button>
-      </div>
-      <div class="chips" role="group" aria-label="Caption colour">
-        <button type="button" data-color="#ffffff" class="active swatch" style="--sw:#ffffff" aria-label="White">White</button>
-        <button type="button" data-color="#ffd76a" class="swatch" style="--sw:#ffd76a" aria-label="Gold">Gold</button>
-        <button type="button" data-color="#ff5e9c" class="swatch" style="--sw:#ff5e9c" aria-label="Hot pink">Hot pink</button>
-        <button type="button" data-color="#5ff2e0" class="swatch" style="--sw:#5ff2e0" aria-label="Cyan">Cyan</button>
-      </div>
-      <label class="field">Title size <span id="sizeValue">100%</span>
-        <input id="sizeRange" type="range" min="0.6" max="1.5" step="0.05" value="1">
-      </label>
-      <div class="chips" role="group" aria-label="Caption position">
-        <button type="button" data-pos="top">Top</button>
-        <button type="button" data-pos="bottom" class="active">Bottom</button>
-      </div>
-    </div>
-
-    <div class="group">
-      <h2>4 · Photos</h2>
-      <label class="upload">Upload your photos
-        <input id="uploadInput" type="file" accept="image/*" multiple>
-      </label>
-      <p class="hint">Click a panel in the preview, then a photo below to place it there. Drag a panel to pan its photo, scroll to zoom.</p>
-      <div id="photoStrip" class="strip" aria-label="Photos"></div>
-      <label class="field">Selected panel zoom <span id="zoomValue">1.00x</span>
-        <input id="zoomRange" type="range" min="1" max="4" step="0.05" value="1">
-      </label>
-      <button type="button" id="resetPanel" class="secondary">Reset selected panel</button>
-    </div>
-
-    <div class="group">
-      <h2>5 · Post size</h2>
-      <div class="chips" role="group" aria-label="Export size">
-        <button type="button" data-size="square" class="active">Square</button>
-        <button type="button" data-size="portrait">Portrait</button>
-        <button type="button" data-size="wide">Wide</button>
-      </div>
-      <div class="exports">
-        <button type="button" data-export="square">Export PNG · 1080 × 1080</button>
-        <button type="button" data-export="portrait">Export PNG · 1080 × 1350</button>
-        <button type="button" data-export="wide">Export PNG · 1920 × 1080</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="stage" aria-label="Cover preview">
-    <canvas id="preview" width="640" height="640" aria-label="Cover preview. Click a panel to select it, drag to pan, scroll to zoom."></canvas>
-    <p id="status" role="status">Loading…</p>
+<main>
+  <aside id="controls">
+    <section>
+      <h2>1 · Photos</h2>
+      <p class="hint">Click a sample to load it into the selected panel, or add your own photo.</p>
+      <div id="tray" class="tray"></div>
+    </section>
+    <section>
+      <h2>2 · Layout</h2>
+      <div id="layouts" class="row"></div>
+    </section>
+    <section>
+      <h2>3 · Grade</h2>
+      <div id="grades" class="row"></div>
+    </section>
+    <section>
+      <h2>4 · Caption</h2>
+      <label>Title <input id="title" type="text" value="VICE CITY" maxlength="24"></label>
+      <label>Subtitle <input id="subtitle" type="text" value="Neon Shore" maxlength="48"></label>
+      <label>Tag <input id="tag" type="text" value="GTA VI" maxlength="16"></label>
+    </section>
+    <section>
+      <h2>5 · Panel</h2>
+      <div id="panels" class="row"></div>
+      <label>Zoom <input id="zoom" type="range" min="0.8" max="2.5" step="0.05" value="1"></label>
+      <p class="hint">Drag the preview to move the selected panel's photo.</p>
+      <button id="fit" type="button">Reset view</button>
+    </section>
+    <section>
+      <h2>6 · Export</h2>
+      <div id="sizes" class="row"></div>
+      <button id="export" type="button" class="primary">Export PNG</button>
+      <p id="status" class="hint"></p>
+    </section>
+  </aside>
+  <section id="preview">
+    <canvas id="stage" width="1920" height="1080"></canvas>
   </section>
 </main>
-
-<footer class="foot">
-  <p>Vice Cover Studio — an original cover maker. No Rockstar Games logo, artwork or fonts. Fonts: Anton, Bebas Neue and Pacifico under the SIL Open Font License. Sample scenes are drawn by the app, no real people.</p>
-</footer>
-
 <script type="module" src="src/main.js"></script>
 </body>
 </html>
